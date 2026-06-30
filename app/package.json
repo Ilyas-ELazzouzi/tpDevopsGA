@@ -5,6 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/index.js",
-    "test": "node --test"
+    "test": "node --test test/*.test.js",
+    "smoke-test": "node scripts/smoke-test.js"
   }
 }

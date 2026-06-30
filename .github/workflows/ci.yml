@@ -43,9 +43,27 @@ jobs:
         with:
           context: ./app
           push: false
+          load: true
           tags: devops-app:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Smoke test /health and /metrics
+        working-directory: app
+        env:
+          BASE_URL: http://127.0.0.1:3000
+        run: |
+          docker run -d --name devops-smoke -p 3000:3000 devops-app:${{ github.sha }}
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:3000/health > /dev/null && break
+            sleep 1
+          done
+          npm run smoke-test
+      - name: Stop smoke test container
+        if: always()
+        run: docker rm -f devops-smoke
 
   # Stage 3 : Scan de sécurité
   security:
@@ -70,4 +88,3 @@ jobs:
     environment: production
     steps:
       - run: echo "Deploying version ${{ github.sha }}..."
-#jcjcjc
