@@ -1,0 +1,9 @@
+# Backend S3 distant (optionnel).
+# Pour l'activer :
+#   1. Copier ce fichier vers backend.tf
+#   2. Copier backend.hcl.example vers backend.hcl et adapter les valeurs AWS
+#   3. terraform init -backend-config=backend.hcl -reconfigure
+
+terraform {
+  backend "s3" {}
+}
