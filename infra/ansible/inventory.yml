@@ -1,0 +1,22 @@
+---
+all:
+  vars:
+    ansible_connection: docker
+    ansible_python_interpreter: /usr/bin/python3
+    app_name: devops-app
+    app_environment: dev
+    app_log_level: info
+    database_host: devops-app-db-dev
+    database_port: 5432
+
+  children:
+    webservers:
+      hosts:
+        devops-app-dev-0:
+          public_url: http://localhost:8080
+        devops-app-dev-1:
+          public_url: http://localhost:8081
+
+    databases:
+      hosts:
+        devops-app-db-dev:
