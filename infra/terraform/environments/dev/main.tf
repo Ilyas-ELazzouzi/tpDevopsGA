@@ -58,6 +58,11 @@ variable "db_port" {
   type = number
 }
 
+variable "app_log_level" {
+  type    = string
+  default = "info"
+}
+
 output "web_urls" {
   value = module.webapp.urls
 }
@@ -65,4 +70,30 @@ output "web_urls" {
 output "db_connection" {
   value     = module.database.connection_string
   sensitive = true
+}
+
+output "ansible_inventory" {
+  value = yamlencode({
+    all = {
+      vars = {
+        ansible_connection         = "docker"
+        ansible_python_interpreter = "/usr/bin/python3"
+        app_name                   = var.app_name
+        app_environment            = var.environment
+        app_log_level              = var.app_log_level
+        database_host              = module.database.ansible_host.name
+        database_port              = module.database.ansible_host.port
+      }
+      children = {
+        webservers = {
+          hosts = module.webapp.ansible_hosts
+        }
+        databases = {
+          hosts = {
+            (module.database.ansible_host.name) = {}
+          }
+        }
+      }
+    }
+  })
 }

@@ -162,3 +162,6 @@ override.tf.json
 **/backend.hcl
 !**/backend.hcl.example
 !**/backend.s3.tf.example
+
+# Ansible (généré depuis Terraform)
+infra/ansible/inventory.yml

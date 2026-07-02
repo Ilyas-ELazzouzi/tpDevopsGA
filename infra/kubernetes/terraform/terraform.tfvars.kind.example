@@ -1,0 +1,4 @@
+# Exemple pour un cluster kind nommé devops-training.
+# Copier ces valeurs dans terraform.tfvars si vous utilisez kind.
+
+kube_context = "kind-devops-training"
