@@ -165,3 +165,4 @@ override.tf.json
 
 # Ansible (généré depuis Terraform)
 infra/ansible/inventory.yml
+infra/minikube-linux-amd64
